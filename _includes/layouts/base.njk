@@ -61,7 +61,10 @@
         </div>
         <div id="reading-progress" aria-hidden="true"></div>
       </nav>
-      <h1>{{ title }}</h1>
+      <h2 contenteditable class="title" 
+      style="text-shadow: rgb(94 103 5 / 70%) 3px 12px 0px, rgb(2 134 134 / 70%) -3px 12px 0px, rgb(134 106 6 / 70%) 12px -3px 0px, rgba(0, 0, 255, 0.7) -12px 3px 0px;">
+        {{ title }}
+      </h2>
       {% block extraArticleHeader %}{% endblock %}
       <dialog id="message"></dialog>
       {% if googleanalytics %}
