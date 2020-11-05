@@ -213,3 +213,117 @@ app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 });
 ```
+
+## Delete a file
+
+For that task we will need to access the file system using the built-in library `[fs](https://nodejs.org/api/fs.html)` in node
+
+fs is full of cool methods to deal with file system.
+
+To delete a file from file system we have two methods
+
+- `**fs.unlink(path, callback)`**
+
+    Asynchronously removes a single file
+
+- `**fs.unlinkSync(path)**`
+
+    Synchronously removes a single file
+
+    returns `undefined`
+
+For this task we will use `unlink` and we will use the built-in library `[promisify](https://nodejs.org/api/util.html#util_util_promisify_original)` to make it return a promise instead of dealing with callbacks dahhhh
+
+And to define the path of the image we can use `[path](https://www.npmjs.com/package/path)` npm dependency 
+
+in my hierarchy the images are added to `uploads` directory
+
+*Now let's code*
+
+```jsx
+const fs = require('fs');
+const { promisify } = require('util');
+const path = require("path");
+
+const unlinkAsync = promisify(fs.unlink);
+const filesDirPath = path.resolve(__dirname, '/uploads');
+
+app.delete("/:name", async(req, res) => {
+	const filePath = `${imagesDirPath}/${req.params.name}`;
+	await unlinkAsync(filePath);
+	return res.status(200).json({ success: true });
+});
+```
+
+Cool! Now you're deleting files like a pro
+
+but what if the file to delete doesn't exist on your file system, this will crash your app
+
+*So let's handle this*
+
+for that we can use `fs.existsSync(path)` that checks if the path exists or not
+
+```jsx
+const fs = require('fs');
+const { promisify } = require('util');
+const path = require("path");
+
+const unlinkAsync = promisify(fs.unlink);
+const filesDirPath = path.resolve(__dirname, '/uploads');
+
+app.delete("/:name", async(req, res) => {
+	const filePath = `${imagesDirPath}/${req.params.name}`;
+	
+	if (!fs.existsSync(filePath) {
+		return res.status(404).json({ error: `Image doesn't exist!`  });
+	}
+	await unlinkAsync(filePath);
+	return res.status(200).json({ success: true });
+});
+```
+
+Now we can feel safe!!!
+
+That was about deleting a single file. Now what about deleting a bunch of files asynchronously 
+
+First thoughts is looping through the set of images to delete and remove each one using `unlink` and it's the right way because their is no such a thing in `fs` to remove many files
+
+![the pros of having excellent first thoughs](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTaYI7Fhb1rIP8TS7rr-t7_RTMrYXbN3lRSgg&usqp=CAU)
+
+*so here you go*
+
+Let's assume we will receive the name of the images to delete in the request as a JSON like this
+
+```json
+{
+    "images": [
+        "img1.jpg",
+        "img2.jpg",
+        "img5.gif",
+        "img4.jpg"
+    ]
+}
+```
+
+And we can access it using `req.body`
+
+```jsx
+app.delete("/:name", async(req, res) => {
+	const filesNames = req.body.images;
+	
+	filesNames.forEach( async(file) => {
+		const filePath = `${imagesDirPath}/${req.params.name}`;
+		if (!fs.existsSync(filePath) {
+			return res.status(404).json({ error: `Image doesn't exist!`  });
+		}
+		await unlinkAsync(filePath);
+	});
+	return res.status(200).json({ success: true });
+});
+```
+
+Okay! that code may seem fine but it has an issue
+
+this code will always return success message no matter what
+
+*to continue later...*
