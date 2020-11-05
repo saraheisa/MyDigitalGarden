@@ -41,11 +41,17 @@ Multer adds two objects to the request:
 
 - files: contains the files uploaded via the form if using `array` function *uploading multi files*
 
+Upload single image
+
 ```jsx
 router.post('/upload', upload.single('photo'), (request, response) => {
 	  // request.file
 		// request.body
 		console.log(request.file);
+    if (req.fileValidationError)
+      return res.status(400).json({ error: req.fileValidationError });
+
+    return res.status(201).json({ success: true });
 }
 ```
 
@@ -62,6 +68,46 @@ Output for `console.log(request.file)`
   path: 'api\\uploads\\photo name.PNG',
   size: 1165007
 }
+```
+Upload multi-images
+
+```jsx
+router.post('/upload', upload.array('photo'), (request, response) => {
+	  // request.files
+		// request.body
+		console.log(request.files);
+    if (req.fileValidationError)
+      return res.status(400).json({ error: req.fileValidationError });
+
+    return res.status(201).json({ success: true });
+}
+```
+
+Output for `console.log(request.file)`
+
+```json
+[
+  {
+    fieldname: 'photo',
+    originalname: '1.jpg',
+    encoding: '7bit',
+    mimetype: 'image/jpeg',
+    destination: 'server/uploads/',
+    filename: '1.jpg',
+    path: 'server\\uploads\\1.jpg',
+    size: 252438
+  },
+  {
+    fieldname: 'photo',
+    originalname: '2.gif',
+    encoding: '7bit',
+    mimetype: 'image/gif',
+    destination: 'server/uploads/',
+    filename: '2.gif',
+    path: 'server\\uploads\\2.gif',
+    size: 1511827
+  }
+]
 ```
 
 #### How to use Multer?
@@ -157,6 +203,10 @@ app.post('/upload', upload.single('photo'), (request, response) => {
     // request.file
     // request.body
     console.log(request.file);
+    if (req.fileValidationError)
+      return res.status(400).json({ error: req.fileValidationError });
+
+    return res.status(201).json({ success: true });
 }
 
 app.listen(port, () => {
