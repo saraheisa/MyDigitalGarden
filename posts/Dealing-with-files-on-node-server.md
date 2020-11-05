@@ -41,7 +41,7 @@ Multer adds two objects to the request:
 
 - files: contains the files uploaded via the form if using `array` function *uploading multi files*
 
-Upload single image
+Upload single file
 
 ```jsx
 router.post('/upload', upload.single('photo'), (request, response) => {
@@ -69,7 +69,7 @@ Output for `console.log(request.file)`
   size: 1165007
 }
 ```
-Upload multi-images
+Upload multi-files
 
 ```jsx
 router.post('/upload', upload.array('photo'), (request, response) => {
