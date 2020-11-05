@@ -216,25 +216,25 @@ app.listen(port, () => {
 
 ## Delete a file
 
-For that task we will need to access the file system using the built-in library `[fs](https://nodejs.org/api/fs.html)` in node
+For that task we will need to access the file system using the built-in library [`fs`](https://nodejs.org/api/fs.html) in node
 
 fs is full of cool methods to deal with file system.
 
 To delete a file from file system we have two methods
 
-- `**fs.unlink(path, callback)`**
+- **`fs.unlink(path, callback)`**
 
     Asynchronously removes a single file
 
-- `**fs.unlinkSync(path)**`
+- **`fs.unlinkSync(path)`**
 
     Synchronously removes a single file
 
     returns `undefined`
 
-For this task we will use `unlink` and we will use the built-in library `[promisify](https://nodejs.org/api/util.html#util_util_promisify_original)` to make it return a promise instead of dealing with callbacks dahhhh
+For this task we will use `unlink` and we will use the built-in library [`promisify`](https://nodejs.org/api/util.html#util_util_promisify_original) to make it return a promise instead of dealing with callbacks dahhhh
 
-And to define the path of the image we can use `[path](https://www.npmjs.com/package/path)` npm dependency 
+And to define the path of the image we can use [`path`](https://www.npmjs.com/package/path) npm dependency 
 
 in my hierarchy the images are added to `uploads` directory
 
@@ -288,7 +288,7 @@ That was about deleting a single file. Now what about deleting a bunch of files 
 
 First thoughts is looping through the set of images to delete and remove each one using `unlink` and it's the right way because their is no such a thing in `fs` to remove many files
 
-![the pros of having excellent first thoughs](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTaYI7Fhb1rIP8TS7rr-t7_RTMrYXbN3lRSgg&usqp=CAU)
+![the pros of having excellent first thoughs](https://media.giphy.com/media/5tujiynKfOrOt0i5Zm/giphy.gif)
 
 *so here you go*
 
