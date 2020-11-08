@@ -288,11 +288,11 @@ That was about deleting a single file. Now what about deleting a bunch of files 
 
 First thoughts is looping through the set of images to delete and remove each one using `unlink` and it's the right way because their is no such a thing in `fs` to remove many files
 
-![the pros of having excellent first thoughs](https://media.giphy.com/media/5tujiynKfOrOt0i5Zm/giphy.gif)
+<!-- ![the pros of having excellent first thoughs](https://media.giphy.com/media/5tujiynKfOrOt0i5Zm/giphy.gif) -->
 
 *so here you go*
 
-Let's assume we will receive the name of the images to delete in the request as a JSON like this
+Let's assume we will receive the names of the images to delete in the request as a JSON like this
 
 ```json
 {
